@@ -54,11 +54,11 @@ def gradient(vx, vy, D, mass):
     dvxdt = fx / mass
     dvydt = fy / mass
 
-    return (dxdt, dydt, dvxdt, dvydt)
+    return np.array([dxdt, dydt, dvxdt, dvydt])
 
 
 # Function to update important variables using the RK4 method
-def RK4(vx, vy, x, y):
+def RK4(vx, vy, x, y, D, mass, dt):
     """
     Calculate next displacements and velocities based on the RK4 method.
 
@@ -73,39 +73,23 @@ def RK4(vx, vy, x, y):
     """
 
     # Assigning the gradients of the variables and calculating their k1, k2, k3 and k4 values based on the equations for each k value
-    k1_x, k1_y, k1_vx, k1_vy = gradient(vx, vy, D, mass)
+    k1 = gradient(vx, vy, D, mass)
+    k1 *= dt
 
-    k1_x *= dt
-    k1_y *= dt
-    k1_vx *= dt
-    k1_vy *= dt
+    k2 = gradient(vx + (k1[2] / 2), vy + (k1[3] / 2), D, mass)
+    k2 *= dt
 
-    k2_x, k2_y, k2_vx, k2_vy = gradient(vx + (k1_vx / 2), vy + (k1_vy / 2), D, mass)
+    k3 = gradient(vx + (k2[2] / 2), vy + (k2[3] / 2), D, mass)
+    k3 *= dt
 
-    k2_x *= dt
-    k2_y *= dt
-    k2_vx *= dt
-    k2_vy *= dt
-
-    k3_x, k3_y, k3_vx, k3_vy = gradient(vx + (k2_vx / 2), vy + (k2_vy / 2), D, mass)
-
-    k3_x *= dt
-    k3_y *= dt
-    k3_vx *= dt
-    k3_vy *= dt
-
-    k4_x, k4_y, k4_vx, k4_vy = gradient(vx + k3_vx, vy + k3_vy, D, mass)
-
-    k4_x *= dt
-    k4_y *= dt
-    k4_vx *= dt
-    k4_vy *= dt
+    k4 = gradient(vx + k3[2], vy + k3[3], D, mass)
+    k4 *= dt
 
     # Calculating the updated displacements and velocities by taking the weighted average of all the k values for each variable
-    x = x + ((k1_x + (2 * k2_x) + (2 * k3_x) + k4_x) * (1 / 6))
-    y = y + ((k1_y + (2 * k2_y) + (2 * k3_y) + k4_y) * (1 / 6))
-    vx = vx + ((k1_vx + (2 * k2_vx) + (2 * k3_vx) + k4_vx) * (1 / 6))
-    vy = vy + ((k1_vy + (2 * k2_vy) + (2 * k3_vy) + k4_vy) * (1 / 6))
+    x = x + ((k1[0] + (2 * k2[0]) + (2 * k3[0]) + k4[0]) * (1 / 6))
+    y = y + ((k1[1] + (2 * k2[1]) + (2 * k3[1]) + k4[1]) * (1 / 6))
+    vx = vx + ((k1[2] + (2 * k2[2]) + (2 * k3[2]) + k4[2]) * (1 / 6))
+    vy = vy + ((k1[3] + (2 * k2[3]) + (2 * k3[3]) + k4[3]) * (1 / 6))
 
     return (x, y, vx, vy)
 
@@ -140,7 +124,7 @@ def projectile_trajectory(initial_velocity, initial_angle, D, mass, dt):
         x_old, y_old, t_old = x, y, t
 
         # Calculate new position and velocity components
-        x, y, horizontal_velocity, vertical_velocity = RK4(horizontal_velocity, vertical_velocity, x, y)
+        x, y, horizontal_velocity, vertical_velocity = RK4(horizontal_velocity, vertical_velocity, x, y, D, mass, dt)
 
         # Updating the time
         t += dt
