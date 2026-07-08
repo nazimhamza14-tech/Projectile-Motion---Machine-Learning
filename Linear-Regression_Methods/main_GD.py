@@ -1,11 +1,13 @@
 # imports
 import numpy as np
 from Linear_RegressionGD import LinearRegressionGD
+from Linear_Regression_Normal import LinearRegressionNormal
+
 
 # CONSTANTS
-START_X = 1
-END_X = 100
-NO_OF_PLOTS = 100
+START_X = -10
+END_X = 10
+NO_OF_PLOTS = 20
 GRADIENT = 3
 INTERCEPT = 4
 DEGREE = 2
@@ -29,12 +31,11 @@ def scale(arr):
     return arr
 
 # Initialization
-x = scale(np.linspace(START_X, END_X, NO_OF_PLOTS))
-y = scale(np.array(x**2 + INTERCEPT))
+x = np.linspace(START_X, END_X, NO_OF_PLOTS)
+y = np.array(x**2 + 4)
 
-# Calling and using the model
+# Calling and using the gradient descent model
 LR = LinearRegressionGD(x, y, LEARNING_RATE, EPOCHS)
 LR.restructure(DEGREE)
 LR.train()
 LR.results()
-
