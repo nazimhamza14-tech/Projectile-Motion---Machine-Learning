@@ -15,8 +15,8 @@ resistance) using numerical methods in two distinct ways.
 **Key conepts** - Easy to code and understand but computationally expensive and can be numerically unstable and less 
 accurate
 
-Here is the graph demonstrating an example projectile trajectory of a padel ball with an initial speed of 30m/s and 
-launch angle of 45 degrees:
+Graph demonstrating an example projectile trajectory of a padel ball with an initial speed of 30m/s and launch angle of 
+45 degrees:
 
 ![Forward Euler projectile trajectory graph](images/Forward-Euler-graph.png)
 Note - To learn and implement the Forward Euler method, I studied the following paper by Tomasz Chwiej: 
@@ -29,7 +29,7 @@ https://galaxy.agh.edu.pl/~chwiej/comp_phys/labs/1_projectile_launch.pdf
 **Key concepts** - Much more accurate and numerically stable than the Forward Euler method while also being less 
 computationally expensive
 
-Here is the graph for the trajectory of a padel ball with the same conditions but using the RK4 method:
+Graph for the trajectory of a padel ball with the same conditions but using the RK4 method:
 
 ![RK4 method projectile trajectory graph](images/RK4-graph.png)
 
@@ -43,16 +43,30 @@ Here is the graph for the trajectory of a padel ball with the same conditions bu
 **Key concepts** - Can accurately predict linear equations but struggles with polynomial equations, requires fine-tuning
 parameters such as learning rate, epochs and number of features and labels
 
-Here is a graph showing the model predicting the linear equation 'y = 3x + 4'
+Graph showing the model predicting the linear equation 'y = 3x + 4'
 
 ![Linear Regression Gradient Descent graph](images/linear-regression-gd-graph.png)
 Notice that the predicted line overlaps almost perfectly with the straight line 'y'. 
 
-Here is a graph showing the model predicting the quadratic function 'y = x^2 + 4':
+Graph showing the model predicting the quadratic function 'y = x^2 + 4':
 
-![Linear Regression Gradient Descent poly graph](images/LR-GD-poly.png)
-Note - the features and labels have been scaled to between 0 and 1. The model did not perform as well with a quadratic
-function
+![Linear Regression Gradient Descent poly graph](images/LRquad.png)
+Note - The quadratic is not smooth and only has x values between -10 and 10. Any more than 20 x values and the model
+runs into an overflow error
 
-### _Next iteration - Linear Regression using the normal equation_
+### (2) Linear Regression from scratch - Normal equation
 
+**What it does** - Predicts the equation of a line given the lines x and y values by calculating the exact weight in one
+line
+
+**Key concepts** - Perfectly predicts linear and polynomial equations and doesn't require fine-tuning any parameters - 
+much more accurate than gradient descent especially for higher degree polynomials and doesn't require feature-scaling.
+
+Graph showing the models prediction of 'y = 3x + 4':
+
+![Linear Regression Normal Linear](images/normalLinear.png)
+
+Graph showing the models prediction of 'y = x^2 + 4':
+
+![Linear Regression Normal poly](images/Normalquad.png)
+Notice how much smoother the curve is as compared to gradient descents version
