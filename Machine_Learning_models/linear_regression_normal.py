@@ -49,8 +49,16 @@ class LinearRegressionNormal:
         # A column vector of the coefficients, going from top to bottom the power of x increases
         print(f"Predicted weights:\n {self.optimal_weights}")
 
+        # Adjusting the order of the arrays to allow for accurate graphing
+        indexes = np.argsort(self.features)
+        self.features = self.features[indexes]
+        self.labels = self.labels[indexes]
+        predictions = predictions[indexes]
+
+
         plt.plot(self.features, self.labels, color="blue", label="Actual graph")
         plt.plot(self.features, predictions, color="red", label="Predicted graph")
         plt.legend()
         plt.title("Model evaluation")
         plt.show()
+
